@@ -1,0 +1,12 @@
+{
+  "name": "PferdeMatch",
+  "short_name": "PferdeMatch",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#F3EDF9",
+  "theme_color": "#6C4A94",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png"}
+  ]
+}
