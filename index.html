@@ -422,7 +422,7 @@
           <button class="tile" onclick="openBrowse()"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg></span><span><b>Alle Rassen</b><small>Über 400 zum Nachschlagen</small></span></button>
           <button class="tile" onclick="openAlltag('s-start', null)"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg></span><span><b>Pferde-Alltag</b><small>Pflege, Futter, Jahreszeiten</small></span></button>
           <button class="tile" onclick="openCalc('s-start', null)"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h2M8 15h2M14 11v6"/></svg></span><span><b>Haltungskosten</b><small>pro Monat & Jahr</small></span></button>
-          <button class="tile" onclick="openEquip('s-start')"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6V4h6v2M4 6h16l-1 14a2 2 0 01-2 2H7a2 2 0 01-2-2z"/></svg></span><span><b>Erstausstattung</b><small>Was man braucht</small></span></button>
+          <button class="tile" onclick="openEquip('s-start')"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1 12a1 1 0 01-1 1H7a1 1 0 01-1-1z"/><path d="M9 11V7a3 3 0 016 0v4"/></svg></span><span><b>Erstausstattung</b><small>Was man braucht</small></span></button>
           <button class="tile" onclick="openCheck('s-start', null)"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6a1 1 0 011 1v1H8V5a1 1 0 011-1z"/><rect x="4" y="6" width="16" height="15" rx="2"/><path d="M8 12l2 2 4-4"/><path d="M8 17h6"/></svg></span><span><b>Checkliste</b><small>Was du wirklich brauchst</small></span></button>
           <button class="tile" onclick="openSave('s-start', null)"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h13a4 4 0 014 4v4a4 4 0 01-4 4H6a3 3 0 01-3-3z"/><path d="M16 11h.01M3 7l3-4h8l2 4"/></svg></span><span><b>Sparziel</b><small>Wann reicht dein Geld?</small></span></button>
         </div>
@@ -768,7 +768,7 @@ const LEX = [["Abaco Barb", "Sonstiges", "Bahamas", "132", "147", "Schecke, Brau
     minus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M8 12h8"/></svg>',
     chevron:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>',
     tap:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11V6a2 2 0 114 0v5"/><path d="M13 11V4a2 2 0 114 0v7"/><path d="M17 11a2 2 0 114 0v3a7 7 0 01-7 7h-2a6 6 0 01-4.2-1.7L4 16.5s1-1 3 0l2 1.5"/></svg>',
-    size:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V8l8-4 8 4v12"/></svg>',
+    size:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h10M7 21h10M12 6v12M9.5 8.5L12 6l2.5 2.5M9.5 15.5L12 18l2.5-2.5"/></svg>',
     temp:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg>',
     star:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 17l-5.2 2.6 1-5.8L3.5 9.7l5.9-.9z"/></svg>',
     heartFill:'<svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 00-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 000-7.8z"/></svg>',
@@ -777,33 +777,33 @@ const LEX = [["Abaco Barb", "Sonstiges", "Bahamas", "132", "147", "Schecke, Brau
   };
   const svgIc = p => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + p + '</svg>';
   const OPTIC = {
-    sprout: svgIc('<path d="M12 21v-9"/><path d="M12 12c0-3 2-5 5-5 0 3-2 5-5 5z"/><path d="M12 14c0-3-2-5-5-5 0 3 2 5 5 5z"/>'),
-    stairs: svgIc('<path d="M3 20h4v-4h4v-4h4v-4h5"/>'),
+    sprout: svgIc('<g transform="translate(0 -2)"><path d="M12 21v-9"/><path d="M12 12c0-3 2-5 5-5 0 3-2 5-5 5z"/><path d="M12 14c0-3-2-5-5-5 0 3 2 5 5 5z"/></g>'),
+    stairs: svgIc('<g transform="translate(0 -2)"><path d="M3 20h4v-4h4v-4h4v-4h5"/></g>'),
     rosette: svgIc('<circle cx="12" cy="8" r="5"/><path d="M8.5 12l-1.5 9 5-3 5 3-1.5-9"/>'),
-    jump: svgIc('<path d="M3 18c4-10 14-10 18 0"/><path d="M14 18v-5h5"/><path d="M2 20h20"/>'),
+    jump: svgIc('<path d="M5 21v-9M19 21v-9M5 14h14M5 18h14"/><path d="M3 9c3-6 15-6 18 0" stroke-dasharray="2 3"/>'),
     tree: svgIc('<path d="M12 3l5 7h-3l4 6H6l4-6H7z"/><path d="M12 16v5"/>'),
-    wave: svgIc('<path d="M3 14c3-5 6-5 9 0s6 5 9 0"/>'),
+    wave: svgIc('<g transform="translate(0 -2)"><path d="M3 14c3-5 6-5 9 0s6 5 9 0"/></g>'),
     heart: svgIc('<path d="M12 20s-7-4.5-9.5-9A5 5 0 0112 5a5 5 0 019.5 6c-2.5 4.5-9.5 9-9.5 9z"/>'),
     hsmall: svgIc('<path d="M8 14h8M8 20h8M12 14v6"/>'),
     hmid: svgIc('<path d="M8 9h8M8 20h8M12 9v11"/>'),
     hbig: svgIc('<path d="M8 4h8M8 20h8M12 4v16"/>'),
     leaf: svgIc('<path d="M5 19C5 11 11 5 19 5c0 8-6 14-14 14z"/><path d="M5 19L13 11"/>'),
-    balance: svgIc('<path d="M12 4v16M6 20h12M4 8h16"/><path d="M4 8l-2 5a3 3 0 006 0zM20 8l-2 5a3 3 0 006 0z"/><path d="M4 8l8-3 8 3"/>'),
+    balance: svgIc('<path d="M12 4v16M8 20h8M5 7h14"/><path d="M5 7l-3 6a3 3 0 006 0zM19 7l-3 6a3 3 0 006 0z"/>'),
     bolt: svgIc('<path d="M13 2L4 14h6l-1 8 9-12h-6z"/>'),
     shield: svgIc('<path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/>'),
-    flag: svgIc('<path d="M5 21V4M5 5h11l-2 4 2 4H5"/>'),
-    flame: svgIc('<path d="M12 3c3 4 5 6 5 9a5 5 0 11-10 0c0-2 1-3.5 2-4.5.3 1.5 1 2.5 2 2.5-.5-3-2-5-1-7z"/>'),
+    flag: svgIc('<g transform="translate(1.5 0)"><path d="M5 21V4M5 5h11l-2 4 2 4H5"/></g>'),
+    flame: svgIc('<path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4.1 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.2.4-2.3 1-3a2.5 2.5 0 002.5 2.5z"/>'),
     hourglass: svgIc('<path d="M6 3h12v2c0 3-3 5-3 7s3 4 3 7v2H6v-2c0-3 3-4 3-7S6 8 6 5V3z"/>'),
     clock: svgIc('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'),
     calendar: svgIc('<rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 10h16M8 3v4M16 3v4"/>'),
-    rider_xs: svgIc('<circle cx="12" cy="12" r="2"/><path d="M12 14v3M10.5 20L12 17l1.5 3"/><path d="M5 20h14"/>'),
-    rider_s: svgIc('<circle cx="12" cy="10" r="2"/><path d="M12 12v4M10 20l2-4 2 4"/><path d="M5 20h14"/>'),
-    rider_m: svgIc('<circle cx="12" cy="8" r="2"/><path d="M12 10v5M9.5 20L12 15l2.5 5"/><path d="M5 20h14"/>'),
-    rider_l: svgIc('<circle cx="12" cy="6" r="2"/><path d="M12 8v6M9 20l3-6 3 6"/><path d="M5 20h14"/>'),
-    w_xs: svgIc('<path d="M4 20a8 8 0 0116 0z"/><path d="M12 20l-3.5-4"/>'),
-    w_s: svgIc('<path d="M4 20a8 8 0 0116 0z"/><path d="M12 20l-1.2-5"/>'),
-    w_m: svgIc('<path d="M4 20a8 8 0 0116 0z"/><path d="M12 20l1.2-5"/>'),
-    w_l: svgIc('<path d="M4 20a8 8 0 0116 0z"/><path d="M12 20l3.5-4"/>')
+    rider_xs: svgIc('<g transform="translate(12 20.5) scale(0.529) translate(-12 -20.5)" stroke-width="3.78"><circle cx="12" cy="5.5" r="2"/><path d="M12 7.5v6.3M9 20.5l3-6.7 3 6.7M8.5 12.5l3.5-3.5 3.5 3.5"/></g><path d="M4 22h16"/>'),
+    rider_s: svgIc('<g transform="translate(12 20.5) scale(0.706) translate(-12 -20.5)" stroke-width="2.83"><circle cx="12" cy="5.5" r="2"/><path d="M12 7.5v6.3M9 20.5l3-6.7 3 6.7M8.5 12.5l3.5-3.5 3.5 3.5"/></g><path d="M4 22h16"/>'),
+    rider_m: svgIc('<g transform="translate(12 20.5) scale(0.882) translate(-12 -20.5)" stroke-width="2.27"><circle cx="12" cy="5.5" r="2"/><path d="M12 7.5v6.3M9 20.5l3-6.7 3 6.7M8.5 12.5l3.5-3.5 3.5 3.5"/></g><path d="M4 22h16"/>'),
+    rider_l: svgIc('<g transform="translate(12 20.5) scale(1.000) translate(-12 -20.5)" stroke-width="2.00"><circle cx="12" cy="5.5" r="2"/><path d="M12 7.5v6.3M9 20.5l3-6.7 3 6.7M8.5 12.5l3.5-3.5 3.5 3.5"/></g><path d="M4 22h16"/>'),
+    w_xs: svgIc('<rect x="3" y="4" width="18" height="17" rx="3"/><path d="M7.5 12a4.5 4.5 0 019 0"/><path d="M12 12L9.1 10.3"/>'),
+    w_s: svgIc('<rect x="3" y="4" width="18" height="17" rx="3"/><path d="M7.5 12a4.5 4.5 0 019 0"/><path d="M12 12L10.6 8.9"/>'),
+    w_m: svgIc('<rect x="3" y="4" width="18" height="17" rx="3"/><path d="M7.5 12a4.5 4.5 0 019 0"/><path d="M12 12L13.4 8.9"/>'),
+    w_l: svgIc('<rect x="3" y="4" width="18" height="17" rx="3"/><path d="M7.5 12a4.5 4.5 0 019 0"/><path d="M12 12L14.9 10.3"/>'),
   };
 
   const QUESTIONS = [
@@ -1307,12 +1307,14 @@ const LEX = [["Abaco Barb", "Sonstiges", "Bahamas", "132", "147", "Schecke, Brau
     clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
     sun:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>',
     calendar:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
-    bucket:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16l-1.6 12.2A2 2 0 0116.4 21H7.6a2 2 0 01-2-1.8z"/><path d="M4 7a8 3 0 0116 0"/></svg>',
+    bucket:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18a9 7 0 01-18 0z"/><path d="M8 9l-1-5M12 9V3M16 9l1-5"/></svg>',
+    box:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9" width="18" height="12" rx="1.5"/><path d="M3 9l2-5h14l2 5M10 13h4"/></svg>',
+    fork:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V11"/><path d="M7 3v4a5 5 0 0010 0V3M12 3v8"/></svg>',
     drop:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 6.4 6 10.5A6 6 0 016 13.5C6 9.4 12 3 12 3z"/></svg>',
     hoof:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4v8a6 6 0 0012 0V4"/><path d="M6 12a6 6 0 0012 0"/></svg>',
-    brush:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="7" rx="2"/><path d="M8 10v4M12 10v6M16 10v4"/></svg>',
+    brush:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9" width="18" height="6" rx="3"/><path d="M6 15v4M9 15v4M12 15v4M15 15v4M18 15v4M8 9V6h8v3"/></svg>',
     run:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18l4-5 4 2 3-5 3 2 4-6"/></svg>',
-    stethoscope:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v5a4 4 0 008 0V3"/><path d="M10 12v3a5 5 0 0010 0v-2"/><circle cx="20" cy="10" r="2"/></svg>',
+    stethoscope:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g transform="translate(-2 0)"><path d="M6 3v5a4 4 0 008 0V3"/><path d="M10 12v3a5 5 0 0010 0v-2"/><circle cx="20" cy="10" r="2"/></g></svg>',
     leaf:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20c0-8 5-14 16-15 1 10-5 16-13 16z"/><path d="M6 18c4-4 7-6 11-8"/></svg>',
     snow:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M4 6l16 12M20 6L4 18"/></svg>',
     flower:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="3"/><path d="M12 7a3 3 0 100-4 3 3 0 000 4zM15 10a3 3 0 104 0 3 3 0 00-4 0zM9 10a3 3 0 10-4 0 3 3 0 004 0zM12 13v8"/></svg>',
@@ -1327,7 +1329,7 @@ const LEX = [["Abaco Barb", "Sonstiges", "Bahamas", "132", "147", "Schecke, Brau
     { ic:"bucket", t:"Füttern", min:20, pension:true, txt:"Heu am besten auf mehrere Portionen verteilt. Ein Pferdemagen ist klein, der Darm braucht aber fast immer etwas zu tun." },
     { ic:"drop", t:"Wasser prüfen", min:5, pension:true, txt:"Ein Pferd trinkt 30 bis 50 Liter am Tag. Tränke sauber halten, im Winter darf sie nicht einfrieren." },
     { ic:"hoof", t:"Hufe auskratzen", min:10, pension:false, txt:"Vor und nach jedem Reiten. Steinchen und Mist müssen raus, sonst wird der Huf krank." },
-    { ic:"brush", t:"Misten und Paddock absammeln", min:20, pension:true, txt:"Eine saubere Box ist Gesundheitsschutz: Ammoniak reizt die Atemwege." },
+    { ic:"fork", t:"Misten und Paddock absammeln", min:20, pension:true, txt:"Eine saubere Box ist Gesundheitsschutz: Ammoniak reizt die Atemwege." },
     { ic:"run", t:"Bewegung", min:60, pension:false, txt:"Pferde sind Lauftiere und brauchen jeden Tag raus: reiten, longieren, führen oder Weide mit anderen Pferden." },
     { ic:"stethoscope", t:"Gesundheits-Blick", min:5, pension:false, txt:"Augen, Nase, Fell, Appetit, Kotäpfel, Verhalten. Wer sein Pferd kennt, merkt sofort, wenn etwas nicht stimmt." }
   ];
@@ -1338,7 +1340,7 @@ const LEX = [["Abaco Barb", "Sonstiges", "Bahamas", "132", "147", "Schecke, Brau
     { ic:"list", t:"Sattel und Zaumzeug pflegen", min:20, pflege:false, txt:"Leder abwischen und ab und zu fetten. Gut gepflegtes Leder hält Jahrzehnte." },
     { ic:"list", t:"Decken und Gamaschen waschen", min:15, pflege:false, txt:"Schweiß und Sand scheuern. Saubere Ausrüstung beugt wunden Stellen vor." },
     { ic:"leaf", t:"Weide und Zaun kontrollieren", min:20, pflege:false, txt:"Löcher, lose Drähte, Giftpflanzen. Einmal die Woche einmal rundherum laufen." },
-    { ic:"bucket", t:"Vorräte prüfen", min:15, pflege:false, txt:"Heu, Kraftfutter, Mineralfutter, Einstreu. Nichts ist ärgerlicher als leere Futterkisten am Sonntagabend." }
+    { ic:"box", t:"Vorräte prüfen", min:15, pflege:false, txt:"Heu, Kraftfutter, Mineralfutter, Einstreu. Nichts ist ärgerlicher als leere Futterkisten am Sonntagabend." }
   ];
   const JAHR = [
     { ic:"flower", t:"Frühling", mon:"März bis Mai", li:[
