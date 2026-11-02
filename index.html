@@ -385,6 +385,11 @@
     body { background:#fff !important; }
     a[href]:after { content:""; }
   }
+    .tile.featured { grid-column:1 / -1; flex-direction:row !important; align-items:center !important; }
+    .srbuehne { margin:0 0 14px; border:1.5px solid var(--line); border-radius:18px; background:radial-gradient(120% 90% at 50% 15%, var(--chestnut-soft), var(--surface-2) 75%); padding:6px 4px 0; }
+    .srbuehne svg { display:block; width:100%; height:auto; }
+    .srinfo { margin:0 0 14px; padding:10px 12px; border-radius:12px; background:var(--surface-2); font-size:14px; line-height:1.45; color:var(--ink); }
+    .chipbtn.on.aktiv { box-shadow:0 0 0 3px var(--chestnut-soft), 0 0 0 4.5px var(--chestnut); }
   </style>
 
 <div class="wrap">
@@ -423,6 +428,7 @@
         <h3>Werkzeuge</h3>
         <div class="tilegrid">
           <button class="tile featured" onclick="openDesigner()"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v4M3 5h4M6 17v4M4 19h4M13 3l2.5 6.5L22 12l-6.5 2.5L13 21l-2.5-6.5L4 12l6.5-2.5z"/></svg></span><span><b>Mein Traumpferd</b><small>Bau dir dein Wunschpferd</small></span></button>
+          <button class="tile" onclick="openShowroom()"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6a2 2 0 112 2c-1 .4-2 1-2 2v1"/><path d="M12 11L3 17.5a1 1 0 00.6 1.8h16.8a1 1 0 00.6-1.8z"/></svg></span><span><b>Pferd anziehen</b><small>Sattel, Trense &amp; Co. in deinen Farben</small></span></button>
           <button class="tile" onclick="openLernen()"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 00-4 10.5c.6.6 1 1.4 1 2.5h6c0-1.1.4-1.9 1-2.5A6 6 0 0012 3z"/></svg></span><span><b>Pferde-Wissen</b><small>Quiz, Fakten &amp; Abzeichen</small></span></button>
           <button class="tile" onclick="openBrowse()"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg></span><span><b>Alle Rassen</b><small>Über 400 zum Nachschlagen</small></span></button>
           <button class="tile" onclick="openAlltag('s-start', null)"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg></span><span><b>Pferde-Alltag</b><small>Pflege, Futter, Jahreszeiten</small></span></button>
@@ -611,6 +617,20 @@
       <div class="dstep"><label>5 · Zubehör aussuchen</label><div id="d-zubehoer" class="chiprow"></div></div>
       <div class="traumkarte" id="traumkarte"></div>
       <div class="navrow" style="margin-top:14px"><button class="btn chestnut" onclick="druckTraum()">Als Steckbrief drucken</button><button class="btn ghost" onclick="teileTraum()">Teilen</button></div>
+    </div>
+  </section>
+
+  <section class="screen" id="s-showroom">
+    <div class="card">
+      <div class="navrow" style="margin:0 0 12px"><button class="btn back ghost" onclick="show('s-start')" aria-label="Zurück"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button></div>
+      <h2 style="margin:0 0 4px">Pferd anziehen</h2>
+      <p class="hint" style="margin:0 0 14px">Such dir Fellfarbe und Ausrüstung aus. Tipp ein Teil an, um es anzuziehen – noch mal tippen zieht es wieder aus. Die Farbe gilt immer für das Teil mit dem Ring.</p>
+      <div class="srbuehne" id="sr-buehne"></div>
+      <div class="srinfo" id="sr-info"></div>
+      <div class="dstep"><label>Ausrüstung</label><div id="sr-teile" class="chiprow"></div></div>
+      <div class="dstep"><label id="sr-farblabel">Farbe</label><div id="sr-farben" class="colrow"></div></div>
+      <div class="dstep"><label>Fellfarbe</label><div id="sr-fell" class="colrow"></div></div>
+      <div class="navrow" style="margin-top:6px"><button class="btn chestnut" onclick="srZufall()">Überrasch mich</button></div>
     </div>
   </section>
 
@@ -1055,7 +1075,7 @@ const LEX = [["Abaco Barb", "Sonstiges", "Bahamas", "132", "147", "Schecke, Brau
     morgan:["braun","rappe","fuchs","palomino"], berber:["schimmel","braun","rappe","fuchs"], achaltekkiner:["isabell","braun","rappe"]
   };
   // Fotos je Rasse und Farbe, Schlüssel "rasse_farbe" (z. B. "islaender_rappe")
-  const FARB_IMG = {};
+  const FARB_IMG = {"achaltekkiner_braun": "farben/achaltekkiner_braun.jpg", "achaltekkiner_rappe": "farben/achaltekkiner_rappe.jpg", "andalusier_braun": "farben/andalusier_braun.jpg", "andalusier_rappe": "farben/andalusier_rappe.jpg", "araber_braun": "farben/araber_braun.jpg", "araber_fuchs": "farben/araber_fuchs.jpg", "araber_rappe": "farben/araber_rappe.jpg", "berber_braun": "farben/berber_braun.jpg", "berber_fuchs": "farben/berber_fuchs.jpg", "berber_rappe": "farben/berber_rappe.jpg", "classicpony_fuchs": "farben/classicpony_fuchs.jpg", "classicpony_rappe": "farben/classicpony_rappe.jpg", "connemara_rappe": "farben/connemara_rappe.jpg", "criollo_braun": "farben/criollo_braun.jpg", "criollo_fuchs": "farben/criollo_fuchs.jpg", "dartmoor_fuchs": "farben/dartmoor_fuchs.jpg", "dartmoor_rappe": "farben/dartmoor_rappe.jpg", "freiberger_fuchs": "farben/freiberger_fuchs.jpg", "islaender_falbe": "farben/islaender_falbe.jpg", "islaender_fuchs": "farben/islaender_fuchs.jpg", "islaender_rappe": "farben/islaender_rappe.jpg", "kaltblut_braun": "farben/kaltblut_braun.jpg", "kaltblut_rappe": "farben/kaltblut_rappe.jpg", "morgan_fuchs": "farben/morgan_fuchs.jpg", "morgan_palomino": "farben/morgan_palomino.jpg", "morgan_rappe": "farben/morgan_rappe.jpg", "newforest_fuchs": "farben/newforest_fuchs.jpg", "newforest_rappe": "farben/newforest_rappe.jpg", "quarter_braun": "farben/quarter_braun.jpg", "quarter_falbe": "farben/quarter_falbe.jpg", "quarter_palomino": "farben/quarter_palomino.jpg", "quarter_rappe": "farben/quarter_rappe.jpg", "reitpony_braun": "farben/reitpony_braun.jpg", "reitpony_rappe": "farben/reitpony_rappe.jpg", "shetty_fuchs": "farben/shetty_fuchs.jpg", "shetty_rappe": "farben/shetty_rappe.jpg", "trakehner_fuchs": "farben/trakehner_fuchs.jpg", "trakehner_rappe": "farben/trakehner_rappe.jpg", "vollblut_braun": "farben/vollblut_braun.jpg", "vollblut_rappe": "farben/vollblut_rappe.jpg", "warmblut_fuchs": "farben/warmblut_fuchs.jpg", "warmblut_rappe": "farben/warmblut_rappe.jpg", "welsh_braun": "farben/welsh_braun.jpg", "welsh_fuchs": "farben/welsh_fuchs.jpg", "welsh_palomino": "farben/welsh_palomino.jpg", "welshcob_fuchs": "farben/welshcob_fuchs.jpg", "welshcob_palomino": "farben/welshcob_palomino.jpg", "welshcob_rappe": "farben/welshcob_rappe.jpg"};
   function farbenVon(id) { return RASSE_FARBEN[id] || [FELLFARBEN[0].k]; }
   function farbFoto(id, farbe) {
     if (FARB_IMG[id + "_" + farbe]) return { src: FARB_IMG[id + "_" + farbe], echt: true };
@@ -1114,6 +1134,138 @@ const LEX = [["Abaco Barb", "Sonstiges", "Bahamas", "132", "147", "Schecke, Brau
     card.innerHTML = h;
   }
   function druckTraum(){ window.print(); }
+
+  // ---------- Pferd anziehen (Showroom) ----------
+  // Gezeichnetes Pferd in Seitenansicht; jedes Ausrüstungsteil ist eine eigene Ebene mit frei wählbarer Farbe.
+  const SR_FELL = {
+    braun:{k:"#7a4526", m:"#1d1512", b:"#1d1512"}, rappe:{k:"#2e292b", m:"#141112", b:"#141112"},
+    schimmel:{k:"#ebe7e0", m:"#d6d0c5", b:"#cfc8bc"}, fuchs:{k:"#b0602c", m:"#9a5226"},
+    falbe:{k:"#d2b07a", m:"#2a211b", b:"#3a2e25"}, palomino:{k:"#ddb460", m:"#f4ead2"},
+    schecke:{k:"#f2eee6", m:"#2a211b", flecken:"#7a4526"}, tiger:{k:"#f2eee6", m:"#8a7a6a", punkte:"#3d2a1e"},
+    isabell:{k:"#ead09a", m:"#f1e4c6"}
+  };
+  const SR_FARBEN = [{k:"leder", c:"#6b3f22"},{k:"schwarz", c:"#2b2b2b"},{k:"weiß", c:"#f4f1ea"}].concat(ZUBFARBEN);
+  const SR_TEILE = [
+    {k:"sattel", n:"Sattel", info:"Darauf sitzt du beim Reiten. Der Sattelgurt hält ihn fest, in den Steigbügeln stehen deine Füße."},
+    {k:"schabracke", n:"Schabracke", info:"Die weiche Unterlage unter dem Sattel. Sie schützt den Pferderücken und saugt Schweiß auf."},
+    {k:"trense", n:"Trense", info:"Das Kopfstück zum Reiten: Mit Gebiss und Zügeln zeigst du deinem Pferd, wohin es gehen soll."},
+    {k:"halfter", n:"Halfter", info:"Damit führst du dein Pferd am Strick, zum Beispiel auf die Weide. Ein Halfter hat kein Gebiss."},
+    {k:"gamaschen", n:"Gamaschen", info:"Schützen die Beine beim Reiten vor Stößen, falls sich das Pferd selbst anschlägt."},
+    {k:"hufglocken", n:"Hufglocken", info:"Glocken aus Gummi über den Hufen. Sie schützen die empfindlichen Ballen."},
+    {k:"fliegenmaske", n:"Fliegenmaske", info:"Ein feines Netz über Augen und Ohren. Hält im Sommer die Fliegen fern – das Pferd sieht trotzdem gut."},
+    {k:"decke", n:"Decke", info:"Hält dein Pferd warm und trocken, wenn es kalt oder nass ist. Mit Decke wird nicht geritten."}
+  ];
+  // Was nicht zusammen passt: Trense oder Halfter; Decke nie mit Sattel oder Schabracke
+  const SR_NICHT_MIT = {trense:["halfter"], halfter:["trense"], decke:["sattel","schabracke"], sattel:["decke"], schabracke:["decke"]};
+  const sr = { fell:"braun", an:["sattel","schabracke","trense"], aktiv:"schabracke",
+    farbe:{sattel:"leder", schabracke:"lila", trense:"leder", halfter:"pink", gamaschen:"weiß", hufglocken:"schwarz", fliegenmaske:"weiß", decke:"blau"} };
+  const srC = k => SR_FARBEN.find(f => f.k === sr.farbe[k]).c;
+  // dunklere Kante zur gewählten Farbe, damit auch Weiß auf hellem Fell sichtbar bleibt
+  function srKante(hex) {
+    const n = parseInt(hex.slice(1), 16), d = v => Math.round(v * .62);
+    return "rgb(" + d(n >> 16) + "," + d((n >> 8) & 255) + "," + d(n & 255) + ")";
+  }
+  const SR_KOERPER = "M112 140 C115 115 160 112 200 118 C225 121 245 118 262 108 C280 95 300 72 318 52 C324 44 334 42 342 48 C352 58 368 86 380 102 C386 110 384 122 372 124 C360 126 350 120 340 112 C330 104 318 102 306 110 C296 120 290 140 292 158 C294 176 288 192 276 200 C240 208 180 208 150 200 C130 196 112 188 106 170 C102 158 104 146 112 140 Z";
+  const srVorne = x => "M" + (x-9) + " 185 L" + (x+9) + " 185 C" + (x+10) + " 205 " + (x+9) + " 220 " + (x+8) + " 230 C" + (x+7) + " 240 " + (x+7) + " 252 " + (x+8) + " 262 L" + (x-6) + " 262 C" + (x-5) + " 252 " + (x-5) + " 240 " + (x-6) + " 230 C" + (x-8) + " 220 " + (x-10) + " 205 " + (x-9) + " 185 Z";
+  const srHinten = x => "M" + (x-14) + " 176 L" + (x+12) + " 176 C" + (x+14) + " 196 " + (x+8) + " 210 " + (x+2) + " 222 C" + (x-1) + " 232 " + (x+2) + " 248 " + (x+3) + " 262 L" + (x-10) + " 262 C" + (x-10) + " 248 " + (x-12) + " 234 " + (x-12) + " 222 C" + (x-14) + " 208 " + (x-16) + " 192 " + (x-14) + " 176 Z";
+  // Beine: [Pfad, Mitte unten, hinten liegend?]
+  const SR_BEINE_FERN = [[srHinten(150), 146.5], [srVorne(262), 263]];
+  const SR_BEINE_NAH = [[srHinten(128), 124.5], [srVorne(282), 283]];
+  function srBild() {
+    const f = SR_FELL[sr.fell], an = k => sr.an.includes(k);
+    const huf = m => '<path d="M' + (m-9) + ' 261 L' + (m+9) + ' 261 L' + (m+11) + ' 276 L' + (m-10) + ' 276 Z" fill="#3a302a"/>';
+    const bein = ([d, m], fern) => {
+      let s = '<path d="' + d + '" fill="' + f.k + '"/>';
+      if (f.b) s += '<path d="' + d + '" fill="' + f.b + '" clip-path="url(#srUnten)"/>';
+      s += huf(m);
+      if (fern) s += '<path d="' + d + '" fill="#000" opacity=".2"/>' + '<path d="M' + (m-10) + ' 261 L' + (m+11) + ' 261 L' + (m+11) + ' 276 L' + (m-10) + ' 276 Z" fill="#000" opacity=".2"/>';
+      return s;
+    };
+    const ausr = (k, beine) => beine.map(([, m]) => k === "gamaschen"
+      ? '<rect x="' + (m-10.5) + '" y="229" width="21" height="30" rx="5" fill="' + srC(k) + '" stroke="' + srKante(srC(k)) + '" stroke-width="1.5"/><path d="M' + (m-10) + ' 238 h21 M' + (m-10) + ' 250 h21" stroke="' + srKante(srC(k)) + '" stroke-width="1.2" opacity=".7"/>'
+      : '<path d="M' + (m-11) + ' 256 C' + (m-6) + ' 253 ' + (m+7) + ' 253 ' + (m+12) + ' 256 L' + (m+15) + ' 273 C' + (m+5) + ' 277 ' + (m-6) + ' 277 ' + (m-14) + ' 273 Z" fill="' + srC(k) + '" stroke="' + srKante(srC(k)) + '" stroke-width="1.5"/>').join("");
+    let s = '<svg viewBox="40 14 360 272" role="img" aria-label="Gezeichnetes Pferd mit Ausrüstung">';
+    s += '<defs><clipPath id="srUnten"><rect x="0" y="236" width="400" height="40"/></clipPath>'
+      + '<clipPath id="srRumpf"><path d="' + SR_KOERPER + '"/></clipPath>'
+      + '<linearGradient id="srLicht" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".16"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".16"/></linearGradient>'
+      + '<pattern id="srNetz" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0H5M0 0V5" stroke="#000" stroke-opacity=".35" stroke-width=".8"/></pattern></defs>';
+    s += '<ellipse cx="205" cy="277" rx="135" ry="7" fill="#000" opacity=".1"/>';
+    // Schweif, ferne Beine, Rumpf, nahe Beine
+    s += '<path d="M112 142 C92 148 82 176 84 206 C86 228 92 242 100 252 C104 232 103 210 108 190 C112 174 116 160 118 150 Z" fill="' + f.m + '"/>';
+    s += SR_BEINE_FERN.map(b => bein(b, true)).join("");
+    if (an("hufglocken")) s += ausr("hufglocken", SR_BEINE_FERN);
+    if (an("gamaschen")) s += ausr("gamaschen", SR_BEINE_FERN);
+    s += '<path d="M326 52 L325 31 L337 48 Z" fill="' + f.k + '"/><path d="M326 52 L325 31 L337 48 Z" fill="#000" opacity=".22"/>';
+    s += '<path d="' + SR_KOERPER + '" fill="' + f.k + '"/>';
+    s += SR_BEINE_NAH.map(b => bein(b, false)).join("");
+    if (f.flecken) s += '<g clip-path="url(#srRumpf)" fill="' + f.flecken + '"><ellipse cx="172" cy="150" rx="42" ry="30"/><ellipse cx="292" cy="96" rx="26" ry="34"/><ellipse cx="118" cy="150" rx="16" ry="22"/><ellipse cx="356" cy="70" rx="16" ry="22"/></g>';
+    if (f.punkte) s += '<g clip-path="url(#srRumpf)" fill="' + f.punkte + '">' + [[118,142],[132,160],[150,136],[126,178],[160,170],[175,148],[142,190],[110,160],[190,182],[205,160],[165,128],[220,140],[240,170],[255,150]].map(([x, y]) => '<circle cx="' + x + '" cy="' + y + '" r="' + (3 + (x * y) % 3) + '"/>').join("") + '</g>';
+    s += '<path d="' + SR_KOERPER + '" fill="url(#srLicht)"/>';
+    if (an("hufglocken")) s += ausr("hufglocken", SR_BEINE_NAH);
+    if (an("gamaschen")) s += ausr("gamaschen", SR_BEINE_NAH);
+    // Mähne, Ohr, Auge, Nüstern
+    s += '<path d="M340 44 C322 48 302 78 284 98 C272 112 262 118 250 120 C264 128 280 120 292 108 C306 94 318 76 330 62 C334 56 338 50 340 44 Z" fill="' + f.m + '"/>';
+    s += '<path d="M332 50 L336 27 L347 46 Z" fill="' + f.k + '"/><path d="M335 46 L337 33 L343 45 Z" fill="#000" opacity=".18"/>';
+    s += '<path d="M338 46 C346 50 352 58 350 68 C344 62 338 56 334 50 Z" fill="' + f.m + '"/>';
+    s += '<circle cx="349" cy="72" r="3.8" fill="#1a1412"/><circle cx="350.3" cy="70.8" r="1.1" fill="#fff"/>';
+    s += '<ellipse cx="375" cy="111" rx="3.2" ry="2.2" fill="#000" opacity=".45"/><path d="M372 120 C366 122 360 120 356 117" stroke="#000" stroke-opacity=".35" stroke-width="1.4" fill="none" stroke-linecap="round"/>';
+    // Ausrüstung von unten nach oben
+    if (an("decke")) { const c = srC("decke"), e = srKante(c);
+      s += '<path d="M252 106 C264 120 270 150 270 184 C232 198 168 198 120 188 C106 170 104 150 110 136 C128 118 170 114 200 118 C222 121 240 116 252 106 Z" fill="' + c + '" stroke="' + e + '" stroke-width="2"/>'
+        + '<path d="M122 184 C170 192 232 192 266 180" stroke="' + e + '" stroke-width="3" fill="none" opacity=".6"/><path d="M262 132 L290 140 L290 152 L264 146 Z" fill="' + c + '" stroke="' + e + '" stroke-width="1.5"/><path d="M196 194 L198 205 M230 192 L232 203" stroke="' + e + '" stroke-width="3"/>'; }
+    if (an("schabracke")) { const c = srC("schabracke"), e = srKante(c);
+      s += '<path d="M168 120 C195 124 230 124 252 114 C256 134 258 152 256 172 C228 178 196 178 166 172 C163 154 164 136 168 120 Z" fill="' + c + '" stroke="' + e + '" stroke-width="2"/>'
+        + '<path d="M172 166 C198 171 226 171 250 166" stroke="#fff" stroke-opacity=".55" stroke-width="2" fill="none" stroke-dasharray="4 3"/>'; }
+    if (an("sattel")) { const c = srC("sattel"), e = srKante(c);
+      s += '<path d="M213 160 L229 160 L227 205 L211 205 Z" fill="' + e + '"/>'
+        + '<path d="M204 122 L238 122 C240 140 238 154 234 166 L208 166 C204 152 202 138 204 122 Z" fill="' + c + '" stroke="' + e + '" stroke-width="1.8"/>'
+        + '<path d="M180 102 C188 112 200 116 214 116 C228 116 240 112 248 102 C254 108 254 118 248 125 C232 133 200 133 188 127 C180 121 176 110 180 102 Z" fill="' + c + '" stroke="' + e + '" stroke-width="1.8"/>'
+        + '<path d="M214 127 L214 182" stroke="' + e + '" stroke-width="3.5"/><path d="M205 182 L223 182 L221 194 L207 194 Z" fill="none" stroke="#a7adb4" stroke-width="3" stroke-linejoin="round"/>'; }
+    if (an("halfter")) { const c = srC("halfter"), e = srKante(c), g = 'stroke-width="6" stroke-linecap="round" fill="none"';
+      s += '<g stroke="' + e + '" ' + g.replace("6", "8") + '><path d="M331 47 C334 70 343 90 352 104"/><path d="M346 104 C358 106 370 105 381 104"/><path d="M334 54 C330 70 324 82 318 92"/></g>'
+        + '<g stroke="' + c + '" ' + g + '><path d="M331 47 C334 70 343 90 352 104"/><path d="M346 104 C358 106 370 105 381 104"/><path d="M334 54 C330 70 324 82 318 92"/></g>'
+        + '<circle cx="349" cy="117" r="4.5" fill="none" stroke="#a7adb4" stroke-width="2.4"/>'; }
+    if (an("trense")) { const c = srC("trense"), e = srKante(c), g = 'stroke-linecap="round" fill="none"';
+      s += '<path d="M363 115 C342 142 300 140 262 117" stroke="' + e + '" stroke-width="5" ' + g + '/><path d="M363 115 C342 142 300 140 262 117" stroke="' + c + '" stroke-width="3" ' + g + '/>'
+        + '<g stroke="' + e + '" stroke-width="5.5" ' + g + '><path d="M333 47 C338 70 348 92 360 112"/><path d="M333 53 L351 61"/><path d="M350 96 L377 92"/></g>'
+        + '<g stroke="' + c + '" stroke-width="3.5" ' + g + '><path d="M333 47 C338 70 348 92 360 112"/><path d="M333 53 L351 61"/><path d="M350 96 L377 92"/></g>'
+        + '<circle cx="362" cy="114" r="4.2" fill="none" stroke="#a7adb4" stroke-width="2.4"/>'; }
+    if (an("fliegenmaske")) { const c = srC("fliegenmaske"), e = srKante(c);
+      s += '<path d="M326 44 L346 40 C358 58 368 78 377 98 C366 102 354 103 345 106 C336 96 326 82 318 60 Z" fill="' + c + '" opacity=".55" stroke="' + e + '" stroke-width="1.5"/>'
+        + '<path d="M326 44 L346 40 C358 58 368 78 377 98 C366 102 354 103 345 106 C336 96 326 82 318 60 Z" fill="url(#srNetz)"/>'
+        + '<path d="M331 50 L336 24 L349 45 Z" fill="' + c + '" stroke="' + e + '" stroke-width="1.5"/><path d="M345 104 C356 102 366 101 377 98" stroke="' + e + '" stroke-width="3" fill="none"/>'; }
+    return s + '</svg>';
+  }
+  function openShowroom() {
+    document.getElementById("sr-fell").innerHTML = FELLFARBEN.map(f => '<button type="button" class="colbtn' + (f.k === sr.fell ? ' on' : '') + '" data-k="' + f.k + '" onclick="srSetFell(\'' + f.k + '\')"><span class="dot" style="background:' + f.c + '"></span>' + f.label.replace(/ \(.*\)/, "") + '</button>').join("");
+    srZeichne();
+    show("s-showroom");
+  }
+  function srSetFell(k) { sr.fell = k; document.querySelectorAll("#sr-fell .colbtn").forEach(b => b.classList.toggle("on", b.getAttribute("data-k") === k)); srZeichne(); }
+  function srTeil(k) {
+    if (sr.an.includes(k) && sr.aktiv !== k) { sr.aktiv = k; }
+    else if (sr.an.includes(k)) { sr.an = sr.an.filter(x => x !== k); sr.aktiv = sr.an[sr.an.length - 1] || ""; }
+    else { sr.an = sr.an.filter(x => !(SR_NICHT_MIT[k] || []).includes(x)).concat(k); sr.aktiv = k; }
+    srZeichne();
+  }
+  function srFarbe(k) { if (sr.aktiv) { sr.farbe[sr.aktiv] = k; srZeichne(); } }
+  function srZufall() {
+    const zz = a => a[Math.floor(Math.random() * a.length)];
+    sr.fell = zz(FELLFARBEN).k;
+    sr.an = zz([["sattel","schabracke","trense","gamaschen"],["sattel","schabracke","trense","hufglocken"],["halfter","decke"],["halfter","fliegenmaske"],["sattel","schabracke","trense"]]).slice();
+    const c = zz(ZUBFARBEN).k;
+    sr.an.forEach(k => sr.farbe[k] = (k === "sattel" || k === "trense") ? zz(["leder","schwarz"]) : c);
+    sr.aktiv = sr.an[sr.an.length - 1];
+    openShowroom();
+  }
+  function srZeichne() {
+    document.getElementById("sr-buehne").innerHTML = srBild();
+    document.getElementById("sr-teile").innerHTML = SR_TEILE.map(t => '<button type="button" class="chipbtn' + (sr.an.includes(t.k) ? ' on' : '') + (sr.aktiv === t.k ? ' aktiv' : '') + '" onclick="srTeil(\'' + t.k + '\')">' + t.n + '</button>').join("");
+    const t = SR_TEILE.find(x => x.k === sr.aktiv);
+    document.getElementById("sr-info").innerHTML = t ? '<b>' + t.n + ':</b> ' + t.info : 'Tipp unten etwas an, um dein Pferd anzuziehen.';
+    document.getElementById("sr-farblabel").innerHTML = t ? 'Farbe für: ' + t.n : 'Farbe – erst ein Teil antippen';
+    document.getElementById("sr-farben").innerHTML = t ? SR_FARBEN.map(f => '<button type="button" class="colbtn dotonly' + (sr.farbe[t.k] === f.k ? ' on' : '') + '" onclick="srFarbe(\'' + f.k + '\')" aria-label="' + f.k + '" title="' + f.k + '"><span class="dot" style="background:' + f.c + '"></span></button>').join("") : "";
+  }
 
   // ---------- Pferde-Wissen (Quiz + Fakten + Abzeichen) ----------
   const QUIZFRAGEN = [
