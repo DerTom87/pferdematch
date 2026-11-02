@@ -295,6 +295,11 @@
     .chipbtn.on { border-color:var(--plum); background:var(--plum); color:var(--on-plum); font-weight:700; }
     .traumkarte { margin:18px 0 0; border:1.5px solid var(--line); border-radius:18px; overflow:hidden; background:var(--surface-2); }
     img.traumfoto { width:100%; aspect-ratio:4/3; object-fit:cover; display:block; }
+    .fotobox { position:relative; }
+    .fotobox .fotohinweis { position:absolute; left:10px; right:10px; bottom:10px; background:rgba(42,32,51,.78); color:#fff; font-size:12.5px; line-height:1.35; padding:7px 10px; border-radius:10px; text-align:center; }
+    .fotobox .dhero { margin:0; }
+    #detailFoto { margin:0 0 14px; }
+    .farbsect .colrow { margin-top:4px; }
     .tcbody { padding:14px 16px 16px; }
     .tcname { font-family:Georgia,serif; font-size:26px; font-weight:700; color:var(--ink); }
     .tcsub { color:var(--ink-soft); font-size:14px; margin:2px 0 10px; }
@@ -598,10 +603,10 @@
     <div class="card">
       <div class="navrow" style="margin:0 0 12px"><button class="btn back ghost" onclick="show('s-start')" aria-label="Zurück"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button></div>
       <h2 style="margin:0 0 4px">Bau dir dein Traumpferd</h2>
-      <p class="hint" style="margin:0 0 16px">Stell dir dein Wunschpferd zusammen – dein persönlicher Steckbrief entsteht live. Das Foto zeigt deine Wunschrasse; Fellfarbe und Zubehör sind deine Wünsche. Bald kannst du dein Pferd auch wirklich anmalen und anziehen.</p>
+      <p class="hint" style="margin:0 0 16px">Stell dir dein Wunschpferd zusammen – dein persönlicher Steckbrief entsteht live. Bei der Fellfarbe gibt es nur Farben, die bei der Rasse wirklich vorkommen – tipp drauf, dann wechselt das Foto. Zubehör und Zubehör-Farbe sind deine Wünsche.</p>
       <div class="dstep"><label for="d-rasse">1 · Welche Rasse?</label><select id="d-rasse" class="full" onchange="updateTraum()"></select></div>
       <div class="dstep"><label for="d-name">2 · Wie soll es heißen?</label><input id="d-name" class="full" maxlength="24" placeholder="z. B. Sternchen" oninput="updateTraum()"></div>
-      <div class="dstep"><label>3 · Lieblings-Fellfarbe</label><div id="d-fell" class="colrow"></div></div>
+      <div class="dstep"><label>3 · Fellfarbe</label><div id="d-fell" class="colrow"></div></div>
       <div class="dstep"><label>4 · Zubehör-Farbe</label><div id="d-zubfarbe" class="colrow"></div></div>
       <div class="dstep"><label>5 · Zubehör aussuchen</label><div id="d-zubehoer" class="chiprow"></div></div>
       <div class="traumkarte" id="traumkarte"></div>
@@ -929,15 +934,24 @@ const LEX = [["Abaco Barb", "Sonstiges", "Bahamas", "132", "147", "Schecke, Brau
   }
 
   // ---------- Detail ----------
+  let detailFarbe = "", detailId = "";
+  function setDetailFarbe(k) {
+    detailFarbe = k;
+    document.getElementById("detailFoto").innerHTML = fotoBox(detailId, k, "dhero");
+    document.querySelectorAll("#detailFarben .colbtn").forEach(x => x.classList.toggle("on", x.getAttribute("data-k") === k));
+  }
   function openDetail(id, backTo) {
+    detailId = id;
     detailBackTo = backTo || "s-browse";
     const b = byId(id);
     const chip = (ic, txt, cls) => '<span class="chip ' + (cls || "") + '">' + ic + txt + '</span>';
     const favOn = favSet.has(id);
     let h = '<div class="navrow" style="margin:0 0 14px"><button class="btn back ghost" onclick="show(detailBackTo)" aria-label="Zurück"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button></div>';
-    h += (BREED_IMG[id] ? '<img class="dhero" src="' + BREED_IMG[id] + '" alt="">' : '') + '<div class="dhead">' + (BREED_IMG[id] ? '' : horseSvg("dthumb")) + '<div style="flex:1"><h2>' + b.name + '</h2><div class="dtyp">' + b.typ + ' · ' + b.herkunft + '</div></div>' +
+    detailFarbe = farbenVon(id)[0];
+    h += (BREED_IMG[id] ? '<div id="detailFoto">' + fotoBox(id, detailFarbe, "dhero") + '</div>' : '') + '<div class="dhead">' + (BREED_IMG[id] ? '' : horseSvg("dthumb")) + '<div style="flex:1"><h2>' + b.name + '</h2><div class="dtyp">' + b.typ + ' · ' + b.herkunft + '</div></div>' +
       '<button class="heartbtn ' + (favOn ? "on" : "") + '" id="detailHeart" onclick="favFromDetail(\'' + id + '\')" aria-label="Merken">' + (favOn ? IC.heartFill : IC.heart) + '</button></div>';
     h += '<div class="chips">' + chip(IC.size, SIZE_LABEL[b.sizeClass]) + chip(IC.temp, ENERGIE_LABEL[b.energie]) + chip(IC.star, ANF_LABEL[b.anf], anfChipClass(b.anf)) + '</div>';
+    if (BREED_IMG[id] && farbenVon(id).length > 1) h += '<div class="sect farbsect noprint"><h3>Farben – tipp drauf</h3><div class="colrow" id="detailFarben">' + farbKnoepfe(id, detailFarbe, "setDetailFarbe") + '</div></div>';
     h += '<p class="lead">' + b.lang + '</p>';
     h += '<div class="sect"><h3>Für wen geeignet</h3><p>' + b.fuerWen + '</p></div>';
     h += '<div class="sect"><h3>Wofür geeignet</h3><div class="chips">' + b.eig.map(e => chip(IC.check, EIGNUNG_LABEL[e])).join("") + '</div></div>';
@@ -1021,8 +1035,43 @@ const LEX = [["Abaco Barb", "Sonstiges", "Bahamas", "132", "147", "Schecke, Brau
     {k:"fuchs", label:"Fuchs (rotbraun)", c:"#a55a2a"},
     {k:"falbe", label:"Falbe (beige)", c:"#c9a86a"},
     {k:"palomino", label:"Palomino (gold)", c:"#d6b34a"},
-    {k:"schecke", label:"Schecke (bunt)", c:"linear-gradient(90deg,#7a4a24 0 50%,#f0ece4 50% 100%)"}
+    {k:"schecke", label:"Schecke (bunt)", c:"linear-gradient(90deg,#7a4a24 0 50%,#f0ece4 50% 100%)"},
+    {k:"tiger", label:"Tigerschecke (getupft)", c:"radial-gradient(circle at 30% 35%,#4a3020 0 2.5px,transparent 3px),radial-gradient(circle at 68% 62%,#4a3020 0 2.5px,transparent 3px),radial-gradient(circle at 40% 75%,#4a3020 0 2px,transparent 2.5px),#f0ece4"},
+    {k:"isabell", label:"Isabell (goldglänzend)", c:"linear-gradient(135deg,#e8cc8a,#c79a48)"}
   ];
+  // Echte Farben je Rasse; die erste Farbe ist die, die das Rassenfoto zeigt
+  const RASSE_FARBEN = {
+    shetty:["braun","rappe","fuchs","schecke","schimmel"], welsh:["schimmel","braun","fuchs","palomino"],
+    reitpony:["fuchs","braun","rappe","schimmel"], connemara:["schimmel","falbe","braun","rappe"], haflinger:["fuchs"],
+    islaender:["braun","rappe","fuchs","falbe","schecke","schimmel"], fjord:["falbe"], tinker:["schecke","rappe"],
+    quarter:["fuchs","braun","rappe","palomino","falbe"], appaloosa:["tiger"], araber:["schimmel","braun","fuchs","rappe"],
+    warmblut:["braun","rappe","fuchs","schimmel"], vollblut:["fuchs","braun","rappe","schimmel"], friese:["rappe"],
+    andalusier:["schimmel","braun","rappe"], kaltblut:["fuchs","braun","rappe"], lewitzer:["schecke","braun"],
+    newforest:["braun","fuchs","rappe","schimmel"], dartmoor:["braun","rappe","fuchs"], knabstrupper:["tiger"],
+    lipizzaner:["schimmel","braun","rappe"], painthorse:["schecke"], lusitano:["schimmel","braun","falbe"],
+    noriker:["tiger","fuchs","rappe","braun"], freiberger:["braun","fuchs"], schwarzwaelder:["fuchs"],
+    welshcob:["braun","fuchs","rappe","schimmel","palomino"], trakehner:["braun","fuchs","rappe","schimmel"],
+    classicpony:["braun","fuchs","rappe","schimmel"], camargue:["schimmel"], criollo:["falbe","braun","fuchs"],
+    morgan:["braun","rappe","fuchs","palomino"], berber:["schimmel","braun","rappe","fuchs"], achaltekkiner:["isabell","braun","rappe"]
+  };
+  // Fotos je Rasse und Farbe, Schlüssel "rasse_farbe" (z. B. "islaender_rappe")
+  const FARB_IMG = {};
+  function farbenVon(id) { return RASSE_FARBEN[id] || [FELLFARBEN[0].k]; }
+  function farbFoto(id, farbe) {
+    if (FARB_IMG[id + "_" + farbe]) return { src: FARB_IMG[id + "_" + farbe], echt: true };
+    return { src: BREED_IMG[id] || "", echt: farbe === farbenVon(id)[0] };
+  }
+  function fotoBox(id, farbe, cls) {
+    const f = farbFoto(id, farbe);
+    if (!f.src) return horseSvg(cls);
+    const lbl = (FELLFARBEN.find(x => x.k === farbe) || {}).label || "";
+    return '<div class="fotobox"><img class="' + cls + ' photo" src="' + f.src + '" alt="">' +
+      (f.echt ? "" : '<div class="fotohinweis">Foto in der Farbe ' + lbl + ' kommt bald</div>') + '</div>';
+  }
+  function farbKnoepfe(id, aktiv, onclick) {
+    return farbenVon(id).map(k => { const f = FELLFARBEN.find(x => x.k === k);
+      return '<button type="button" class="colbtn' + (k === aktiv ? " on" : "") + '" data-k="' + k + '" onclick="' + onclick + '(\'' + k + '\')"><span class="dot" style="background:' + f.c + '"></span>' + f.label + '</button>'; }).join("");
+  }
   const ZUBFARBEN = [
     {k:"lila", c:"#6C4A94"},{k:"pink", c:"#d94f8a"},{k:"blau", c:"#3b7dd8"},
     {k:"türkis", c:"#2fb3a8"},{k:"grün", c:"#3e8e5e"},{k:"rot", c:"#d0453f"},{k:"gelb", c:"#e3b23c"}
@@ -1033,7 +1082,6 @@ const LEX = [["Abaco Barb", "Sonstiges", "Bahamas", "132", "147", "Schecke, Brau
     let rs = '<option value="">– Rasse wählen –</option>';
     BREEDS.slice().sort((a,z)=>a.name.localeCompare(z.name,"de")).forEach(b => rs += '<option value="'+b.id+'">'+b.name+'</option>');
     document.getElementById("d-rasse").innerHTML = rs;
-    document.getElementById("d-fell").innerHTML = FELLFARBEN.map(f => '<button type="button" class="colbtn'+(f.k===traum.fell?' on':'')+'" data-k="'+f.k+'" onclick="setFell(\''+f.k+'\')"><span class="dot" style="background:'+f.c+'"></span>'+f.label+'</button>').join("");
     document.getElementById("d-zubfarbe").innerHTML = ZUBFARBEN.map(f => '<button type="button" class="colbtn dotonly'+(f.k===traum.zubfarbe?' on':'')+'" data-k="'+f.k+'" onclick="setZubfarbe(\''+f.k+'\')" aria-label="'+f.k+'" title="'+f.k+'"><span class="dot" style="background:'+f.c+'"></span></button>').join("");
     document.getElementById("d-zubehoer").innerHTML = ZUBEHOER.map(z => '<button type="button" class="chipbtn'+(traum.zubehoer.includes(z)?' on':'')+'" onclick="toggleZub(\''+z+'\')">'+z+'</button>').join("");
     document.getElementById("d-name").value = traum.name;
@@ -1041,19 +1089,22 @@ const LEX = [["Abaco Barb", "Sonstiges", "Bahamas", "132", "147", "Schecke, Brau
     updateTraum();
     show("s-designer");
   }
-  function setFell(k){ traum.fell=k; document.querySelectorAll("#d-fell .colbtn").forEach(b=>b.classList.toggle("on", b.getAttribute("data-k")===k)); updateTraum(); }
+  function setFell(k){ traum.fell=k; updateTraum(); }
   function setZubfarbe(k){ traum.zubfarbe=k; document.querySelectorAll("#d-zubfarbe .colbtn").forEach(b=>b.classList.toggle("on", b.getAttribute("data-k")===k)); updateTraum(); }
   function toggleZub(z){ const i=traum.zubehoer.indexOf(z); if(i>=0) traum.zubehoer.splice(i,1); else traum.zubehoer.push(z); document.querySelectorAll("#d-zubehoer .chipbtn").forEach(b=>b.classList.toggle("on", traum.zubehoer.includes(b.textContent))); updateTraum(); }
   function updateTraum(){
     traum.rasse = document.getElementById("d-rasse").value;
     traum.name = document.getElementById("d-name").value.trim();
     const card = document.getElementById("traumkarte");
+    const fellBox = document.getElementById("d-fell");
+    if(!traum.rasse){ fellBox.innerHTML = '<p class="hint" style="margin:0">Wähl zuerst eine Rasse – dann siehst du, welche Farben es bei ihr gibt.</p>'; }
+    else { if(!farbenVon(traum.rasse).includes(traum.fell)) traum.fell = farbenVon(traum.rasse)[0]; fellBox.innerHTML = farbKnoepfe(traum.rasse, traum.fell, "setFell"); }
     if(!traum.rasse){ card.innerHTML = '<div class="empty">Wähl oben eine Rasse aus – dann erscheint hier dein ganz persönliches Traumpferd.</div>'; return; }
     const b = byId(traum.rasse);
     const fell = FELLFARBEN.find(f=>f.k===traum.fell);
     const zc = ZUBFARBEN.find(f=>f.k===traum.zubfarbe);
     const nm = traum.name || "Mein Traumpferd";
-    let h = breedThumb(b.id, "traumfoto");
+    let h = fotoBox(b.id, traum.fell, "traumfoto");
     h += '<div class="tcbody"><div class="tcname">' + nm + '</div>';
     h += '<div class="tcsub">' + b.name + ' · Fellfarbe ' + fell.label + '</div>';
     if(traum.zubehoer.length) h += '<div class="zchips">' + traum.zubehoer.map(z=>'<span class="zchip" style="background:'+zc.c+'1f;border-color:'+zc.c+';color:'+zc.c+'">'+z+'</span>').join("") + '</div>';
